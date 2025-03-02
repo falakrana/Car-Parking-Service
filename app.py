@@ -185,7 +185,7 @@ class VehicleHashTable:
         return None
 
 # Initialize the parking system
-total_slots = 6
+total_slots = 10
 parking_manager = ParkingSlotManager(total_slots)
 waitlist_queue = WaitlistQueue()
 vehicle_hash = VehicleHashTable()
