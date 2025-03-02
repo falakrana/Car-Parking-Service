@@ -1,0 +1,326 @@
+{% extends 'layout.html' %}
+
+{% block title %}Cars Information{% endblock %}
+
+{% block content %}
+<div class="cars-section">
+    <div class="section-header">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <h1 class="section-title"><i class="fas fa-car"></i> Parking Management</h1>
+                <p class="section-subtitle">Manage your parking slots and vehicles</p>
+            </div>
+            <button class="btn btn-primary park-btn" type="button" data-bs-toggle="modal" data-bs-target="#parkVehicleModal">
+                <i class="fas fa-plus"></i> Park New Vehicle
+            </button>
+        </div>
+    </div>
+    
+    <div class="search-container">
+        <div class="card search-card">
+            <div class="card-body">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="searchLicensePlate" class="form-control" placeholder="Search by license plate...">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                        Search
+                    </button>
+                </div>
+                
+                <div id="searchResult" class="alert mt-3 d-none">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="parking-slots-container">
+        <div class="card slots-card">
+            <div class="card-header">
+                <h2><i class="fas fa-parking"></i> Parking Slots</h2>
+            </div>
+            <div class="card-body">
+                <div class="parking-grid">
+                    {% for slot in slots %}
+                    <div class="parking-slot {% if slot.is_occupied %}occupied{% else %}available{% endif %}">
+                        <div class="slot-header">
+                            <h3>Slot {{ slot.slot_id }}</h3>
+                        </div>
+                        <div class="slot-body">
+                            {% if slot.is_occupied %}
+                            <div class="vehicle-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="vehicle-details">
+                                <p><strong>License:</strong> {{ slot.vehicle.license_plate }}</p>
+                                <p><strong>Owner:</strong> {{ slot.vehicle.owner_name }}</p>
+                                <p><strong>Contact:</strong> {{ slot.vehicle.contact }}</p>
+                                <p><strong>Entry:</strong> {{ slot.vehicle.entry_time }}</p>
+                            </div>
+                            <button class="btn btn-danger btn-sm remove-vehicle" data-license="{{ slot.vehicle.license_plate }}">
+                                <i class="fas fa-sign-out-alt"></i> Remove
+                            </button>
+                            {% else %}
+                            <div class="available-icon">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <p class="available-text">Available</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="waitlist-container mt-4">
+        <div class="card waitlist-card">
+            <div class="card-header">
+                <h2><i class="fas fa-users"></i> Waitlist Queue</h2>
+            </div>
+            <div class="card-body">
+                {% if waitlist|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>License Plate</th>
+                                <th>Owner Name</th>
+                                <th>Contact</th>
+                                <th>Entry Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vehicle in waitlist %}
+                            <tr class="waitlist-item">
+                                <td><span class="position-badge">{{ loop.index }}</span></td>
+                                <td>{{ vehicle.license_plate }}</td>
+                                <td>{{ vehicle.owner_name }}</td>
+                                <td>{{ vehicle.contact }}</td>
+                                <td>{{ vehicle.entry_time }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-waitlist">
+                    <div class="empty-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <p>No vehicles in the waitlist</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Park Vehicle Modal -->
+<div class="modal fade" id="parkVehicleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-car"></i> Park a Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('park_vehicle') }}" method="post" id="parkVehicleForm">
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="license_plate" name="license_plate" placeholder="License Plate" required>
+                        <label for="license_plate">License Plate</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="owner_name" name="owner_name" placeholder="Owner Name" required>
+                        <label for="owner_name">Owner Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact Number" required>
+                        <label for="contact">Contact Number</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Park Vehicle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Remove Vehicle Form -->
+<form id="removeVehicleForm" action="{{ url_for('remove_vehicle') }}" method="post">
+    <input type="hidden" id="remove_license_plate" name="license_plate">
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Handle remove vehicle buttons
+    document.querySelectorAll('.remove-vehicle').forEach(button => {
+        button.addEventListener('click', function() {
+            const licensePlate = this.getAttribute('data-license');
+            
+            // Create confirmation modal dynamically
+            const confirmModal = document.createElement('div');
+            confirmModal.className = 'confirmation-modal';
+            confirmModal.innerHTML = `
+                <div class="confirmation-content">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Confirm Removal</h3>
+                    <p>Are you sure you want to remove vehicle with license plate <strong>${licensePlate}</strong>?</p>
+                    <div class="confirmation-buttons">
+                        <button class="btn btn-secondary cancel-btn">Cancel</button>
+                        <button class="btn btn-danger confirm-btn">Remove</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(confirmModal);
+            
+            // Add animation class after a small delay
+            setTimeout(() => {
+                confirmModal.classList.add('show');
+            }, 10);
+            
+            // Handle cancel button
+            confirmModal.querySelector('.cancel-btn').addEventListener('click', function() {
+                confirmModal.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(confirmModal);
+                }, 300);
+            });
+            
+            // Handle confirm button
+            confirmModal.querySelector('.confirm-btn').addEventListener('click', function() {
+                document.getElementById('remove_license_plate').value = licensePlate;
+                document.getElementById('removeVehicleForm').submit();
+            });
+        });
+    });
+
+    // Handle search
+    document.getElementById('searchButton').addEventListener('click', function() {
+        const licensePlate = document.getElementById('searchLicensePlate').value.trim();
+        const resultDiv = document.getElementById('searchResult');
+        
+        if (!licensePlate) {
+            resultDiv.classList.remove('d-none', 'alert-info', 'alert-success', 'alert-danger');
+            resultDiv.classList.add('alert-warning', 'd-block');
+            resultDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span>Please enter a license plate to search</span>
+                </div>
+            `;
+            return;
+        }
+        
+        // Show loading state
+        resultDiv.classList.remove('d-none', 'alert-success', 'alert-danger', 'alert-warning');
+        resultDiv.classList.add('alert-info', 'd-block');
+        resultDiv.innerHTML = `
+            <div class="d-flex align-items-center">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Searching for vehicle...</span>
+            </div>
+        `;
+
+        fetch('/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'license_plate=' + encodeURIComponent(licensePlate)
+        })
+        .then(response => response.json())
+        .then(data => {
+            resultDiv.classList.remove('alert-info', 'alert-success', 'alert-danger', 'alert-warning');
+            
+            if (data.found) {
+                resultDiv.classList.add('alert-success');
+                if (data.slot_id) {
+                    resultDiv.innerHTML = `
+                        <div class="search-result-content">
+                            <div class="search-result-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="search-result-details">
+                                <h5>Vehicle Found!</h5>
+                                <div class="vehicle-info">
+                                    <p><strong>License Plate:</strong> ${data.vehicle.license_plate}</p>
+                                    <p><strong>Owner:</strong> ${data.vehicle.owner_name}</p>
+                                    <p><strong>Contact:</strong> ${data.vehicle.contact}</p>
+                                    <p><strong>Entry Time:</strong> ${data.vehicle.entry_time}</p>
+                                    <p><strong>Location:</strong> <span class="badge bg-primary">Parked in Slot ${data.slot_id}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="search-result-content">
+                            <div class="search-result-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="search-result-details">
+                                <h5>Vehicle Found in Waitlist!</h5>
+                                <div class="vehicle-info">
+                                    <p><strong>License Plate:</strong> ${data.vehicle.license_plate}</p>
+                                    <p><strong>Owner:</strong> ${data.vehicle.owner_name}</p>
+                                    <p><strong>Contact:</strong> ${data.vehicle.contact}</p>
+                                    <p><strong>Entry Time:</strong> ${data.vehicle.entry_time}</p>
+                                    <p><strong>Waitlist Position:</strong> <span class="badge bg-warning text-dark">${data.waitlist_position}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                resultDiv.classList.add('alert-danger');
+                resultDiv.innerHTML = `
+                    <div class="search-result-content">
+                        <div class="search-result-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="search-result-details">
+                            <h5>Vehicle Not Found</h5>
+                            <p>No vehicle with license plate "${licensePlate}" found in the parking or waitlist.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            resultDiv.classList.remove('alert-info', 'alert-success', 'alert-danger');
+            resultDiv.classList.add('alert-danger');
+            resultDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span>An error occurred while searching. Please try again.</span>
+                </div>
+            `;
+        });
+    });
+    
+    // Add animation to parking slots
+    document.addEventListener('DOMContentLoaded', function() {
+        const parkingSlots = document.querySelectorAll('.parking-slot');
+        parkingSlots.forEach((slot, index) => {
+            setTimeout(() => {
+                slot.classList.add('appear');
+            }, 100 * index);
+        });
+    });
+</script>
+{% endblock %}
+

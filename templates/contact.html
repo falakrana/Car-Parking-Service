@@ -1,0 +1,168 @@
+{% extends 'layout.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="contact-section">
+    <div class="section-header text-center mb-5">
+        <div class="section-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+        <h1 class="section-title">Get in Touch</h1>
+        <p class="section-subtitle">We'd love to hear from you</p>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card contact-card h-100">
+                <div class="card-body">
+                    <h2 class="card-title with-line">Send Us a Message</h2>
+                    
+                    <form class="contact-form">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="name" placeholder="Your Name">
+                            <label for="name">Your Name</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" placeholder="Email Address">
+                            <label for="email">Email Address</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="subject" placeholder="Subject">
+                            <label for="subject">Subject</label>
+                        </div>
+                        
+                        <div class="form-floating mb-4">
+                            <textarea class="form-control" id="message" style="height: 150px" placeholder="Your Message"></textarea>
+                            <label for="message">Your Message</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg submit-btn">
+                            <span class="btn-text"><i class="fas fa-paper-plane me-2"></i> Send Message</span>
+                            <span class="btn-icon"><i class="fas fa-spinner fa-spin"></i></span>
+                            <span class="btn-success"><i class="fas fa-check"></i></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card contact-card h-100">
+                <div class="card-body">
+                    <h2 class="card-title with-line">Contact Information</h2>
+                    
+                    <div class="contact-info-list">
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Address</h4>
+                                <p>123 Parking Avenue, Tech City, TC 12345</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Phone</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Email</h4>
+                                <p>info@carparkingsystem.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Working Hours</h4>
+                                <p>Monday - Friday: 9:00 AM - 5:00 PM<br>
+                                Saturday: 10:00 AM - 2:00 PM<br>
+                                Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-media">
+                        <h4>Follow Us</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.contact-form');
+        const submitBtn = document.querySelector('.submit-btn');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Add loading state
+                submitBtn.classList.add('loading');
+                
+                // Simulate form submission
+                setTimeout(function() {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.classList.add('success');
+                    
+                    // Reset form
+                    setTimeout(function() {
+                        form.reset();
+                        submitBtn.classList.remove('success');
+                    }, 2000);
+                }, 1500);
+            });
+        }
+        
+        // Add hover effects to contact info items
+        const contactItems = document.querySelectorAll('.contact-info-item');
+        contactItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.contact-icon i');
+                icon.classList.add('animated');
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.contact-icon i');
+                icon.classList.remove('animated');
+            });
+        });
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="hero-section">
+            <div class="card hero-card shadow-lg border-0 rounded-lg">
+                <div class="card-body text-center p-5">
+                    <div class="hero-icon">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <h1 class="hero-title">Welcome to Car Parking System</h1>
+                    <p class="hero-subtitle">A smart parking management solution powered by advanced data structures</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-circle-notch"></i>
+                            </div>
+                            <h3>Circular Linked List</h3>
+                            <p>Efficient slot management with O(1) traversal</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Queue System</h3>
+                            <p>Fair waitlist management with FIFO approach</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <h3>Hash Table</h3>
+                            <p>O(1) time complexity for vehicle lookups</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-container">
+                        <a href="{{ url_for('cars_info') }}" class="btn btn-primary btn-lg cta-button">
+                            <i class="fas fa-car"></i> Manage Parking
+                        </a>
+                        <a href="{{ url_for('about') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-info-circle"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section mt-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-value counter">500+</h3>
+                            <p class="stat-label">Cars Managed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-value counter">24/7</h3>
+                            <p class="stat-label">Availability</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-value counter">99%</h3>
+                            <p class="stat-label">Efficiency</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

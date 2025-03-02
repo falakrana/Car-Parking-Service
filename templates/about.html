@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <div class="section-header text-center mb-5">
+        <div class="section-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <h1 class="section-title">About Car Parking System</h1>
+        <p class="section-subtitle">Learn about our mission and technology</p>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card about-card h-100">
+                <div class="card-body">
+                    <h2 class="card-title with-line">Our Mission</h2>
+                    <p class="lead">
+                        To provide an efficient and user-friendly parking management system that leverages the power of data structures and algorithms.
+                    </p>
+                    <p>
+                        The Car Parking System is designed to optimize parking space utilization, reduce waiting times, and provide a seamless experience for both parking administrators and vehicle owners.
+                    </p>
+                    
+                    <h2 class="card-title with-line mt-5">Key Features</h2>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-circle-notch"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Circular Linked List</h4>
+                                <p>Efficient management of parking slots in a circular manner</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Queue System</h4>
+                                <p>Fair waitlist management for vehicles when parking is full</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Hash Table</h4>
+                                <p>O(1) time complexity for vehicle lookups by license plate</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Optimized Performance</h4>
+                                <p>Using DSA principles for high efficiency</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card about-card h-100">
+                <div class="card-body">
+                    <h2 class="card-title with-line">Data Structures Used</h2>
+                    
+                    <div class="data-structure-item">
+                        <div class="ds-icon">
+                            <i class="fas fa-circle-notch"></i>
+                        </div>
+                        <div class="ds-content">
+                            <h3>Circular Linked List</h3>
+                            <p>
+                                A circular linked list is used to represent parking slots. This allows for efficient traversal and management of slots in a circular fashion, making it easy to find available slots.
+                            </p>
+                            <div class="ds-visual">
+                                <div class="ds-node">1</div>
+                                <div class="ds-arrow">→</div>
+                                <div class="ds-node">2</div>
+                                <div class="ds-arrow">→</div>
+                                <div class="ds-node">3</div>
+                                <div class="ds-arrow curved">↩</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-structure-item">
+                        <div class="ds-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="ds-content">
+                            <h3>Queue (Linked List Implementation)</h3>
+                            <p>
+                                A queue data structure is used to manage the waitlist of vehicles when all parking slots are occupied. This ensures a first-come, first-served approach to parking allocation.
+                            </p>
+                            <div class="ds-visual">
+                                <div class="ds-queue">
+                                    <div class="ds-queue-front">Front</div>
+                                    <div class="ds-queue-item">Car A</div>
+                                    <div class="ds-queue-item">Car B</div>
+                                    <div class="ds-queue-item">Car C</div>
+                                    <div class="ds-queue-rear">Rear</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-structure-item">
+                        <div class="ds-icon">
+                            <i class="fas fa-hashtag"></i>
+                        </div>
+                        <div class="ds-content">
+                            <h3>Hash Table</h3>
+                            <p>
+                                A hash table provides O(1) time complexity for vehicle lookups by license plate, making the search operation extremely efficient regardless of the number of vehicles in the system.
+                            </p>
+                            <div class="ds-visual">
+                                <div class="ds-hash">
+                                    <div class="ds-hash-row">
+                                        <div class="ds-hash-key">ABC123</div>
+                                        <div class="ds-hash-arrow">→</div>
+                                        <div class="ds-hash-value">Slot 2</div>
+                                    </div>
+                                    <div class="ds-hash-row">
+                                        <div class="ds-hash-key">XYZ789</div>
+                                        <div class="ds-hash-arrow">→</div>
+                                        <div class="ds-hash-value">Slot 5</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
