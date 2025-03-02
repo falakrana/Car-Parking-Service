@@ -970,6 +970,10 @@ a:hover {
   font-size: 0.9rem;
 }
 
+.dark .vehicle-details p {
+  color: var(--dark);
+}
+
 .available-text {
   font-weight: 600;
   color: var(--success);
